@@ -62,7 +62,7 @@ public class ChallengeServiceTest {
     @Test
     public void checkExistingUserTest() {
         // given
-        User existingUser = new User(1L, "john_doe", null);
+        User existingUser = new User(1L, "john_doe");
         given(userRepository.findByAlias("john_doe")).willReturn(Optional.of(existingUser));
         ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(50, 60, "john_doe", 5000);
         // when

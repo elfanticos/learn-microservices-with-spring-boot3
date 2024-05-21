@@ -25,11 +25,7 @@ public class User {
 
     private String alias;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<ChallengeAttempt> challengeAttempts;
-
     public User(final String userAlias) {
-        this(null, userAlias, null);
+        this(null, userAlias);
     }
 }
