@@ -18,13 +18,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
-        // check if the user already exists for that alias, otherwise create it
-        User user = userRepository.findByAlias(attemptDTO.getUserAlias())
-                .orElseGet(() -> {
-                    log.info("Creating new user with alias {}", attemptDTO.getUserAlias());
-                    return userRepository.save(new User(attemptDTO.getUserAlias()));
-                });
-
+        // Check if the user already exists for that alias, otherwise create it
+        User user = userRepository.findByAlias(attemptDTO.getUserAlias()).orElseGet(() -> {
+            log.info("Creating new user with alias {}", attemptDTO.getUserAlias());
+            return userRepository.save(new User(attemptDTO.getUserAlias()));
+        });
         // check if the attempt is correct
         boolean isCorrect = attemptDTO.getGuess() == attemptDTO.getFactorA() * attemptDTO.getFactorB();
 
