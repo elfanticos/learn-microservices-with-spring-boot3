@@ -1,5 +1,6 @@
 import * as React from "react";
-import ApiClient from "../services/ApiClient";
+import ChallengeApiClient from "../services/ChallengeApiClient";
+import LastAttemptsComponent from "./LastAttemptsComponent";
 
 class ChallengeComponent extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ChallengeComponent extends React.Component {
     }
 
     componentDidMount() {
-        ApiClient.challenge().then(res => {
+        ChallengeApiClient.challenge().then(res => {
             if (res.ok) {
                 res.json().then(json => {
                     this.setState({
@@ -39,7 +40,7 @@ class ChallengeComponent extends React.Component {
 
     handleSubmitResult(event) {
         event.preventDefault();
-        ApiClient.sendGuess(this.state.user, this.state.a, this.state.b, this.state.guess).then(res => {
+        ChallengeApiClient.sendGuess(this.state.user, this.state.a, this.state.b, this.state.guess).then(res => {
             if (res.ok) {
                 res.json().then(json => {
                     if (json.correct) {
@@ -47,6 +48,9 @@ class ChallengeComponent extends React.Component {
                     } else {
                         this.updateMessage("Oops! Your guess " + json.resultAttempt + " is wrong, but keep playing!");
                     }
+                    console.log(this.state.user);
+                    this.updateLastAttempts(this.state.user);
+                    // this.refreshChallenge();
                 });
             } else {
                 this.updateMessage("Error: server error or not available");
@@ -57,6 +61,19 @@ class ChallengeComponent extends React.Component {
     updateMessage(message) {
         this.setState({
             message
+        });
+    }
+
+    updateLastAttempts(userAlias) {
+        ChallengeApiClient.getAttempts(userAlias).then(res => {
+            if (res.ok) {
+                let lastAttempts = [];
+                res.json().then(data => {
+                    console.log(data);
+                    data.forEach(item => lastAttempts.push(item));
+                    this.setState({ lastAttempts });
+                });
+            }
         });
     }
 
@@ -80,7 +97,9 @@ class ChallengeComponent extends React.Component {
                     <br />
                     <input type="submit" value="Submit" />
                 </form>
+
                 <h4>{this.state.message}</h4>
+                {this.state?.lastAttempts?.length > 0 && <LastAttemptsComponent lastAttempts={this.state.lastAttempts} /> }
             </div>
 
         );
