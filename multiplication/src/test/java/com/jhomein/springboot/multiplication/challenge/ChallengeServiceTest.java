@@ -27,13 +27,12 @@ public class ChallengeServiceTest {
 
     @BeforeEach
     public void setUp() {
-        challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository);
+        this.challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository);
     }
 
     @Test
     public void checkCorrectAttemptTest() {
-        // given
-//        given(challengeAttemptRepository.save(any())).will(returnsFirstArg());
+        // given(challengeAttemptRepository.save(any())).will(returnsFirstArg());
         ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(50, 60, "john_doe", 3000);
 
         // when
