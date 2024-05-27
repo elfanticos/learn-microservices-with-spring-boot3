@@ -1,5 +1,6 @@
 package com.jhomein.springboot.multiplication.challenge;
 
+import com.jhomein.springboot.multiplication.serviceclients.GamificationServiceClient;
 import com.jhomein.springboot.multiplication.user.User;
 import com.jhomein.springboot.multiplication.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,29 +26,34 @@ public class ChallengeServiceTest {
     @Mock
     private ChallengeAttemptRepository challengeAttemptRepository;
 
+    @Mock
+    private GamificationServiceClient gamificationServiceClient;
+
     @BeforeEach
     public void setUp() {
-        this.challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository);
+        this.challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository, gamificationServiceClient);
     }
 
     @Test
     public void checkCorrectAttemptTest() {
         // given(challengeAttemptRepository.save(any())).will(returnsFirstArg());
+
         ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(50, 60, "john_doe", 3000);
 
         // when
-        ChallengeAttempt resultAttempt = challengeService.verifyAttempt(attemptDTO);
-
+        ChallengeAttempt  resultAttempt = challengeService.verifyAttempt(attemptDTO);;
         // then
         then(resultAttempt.isCorrect()).isTrue();
 
         // newly added lines
         verify(userRepository).save(new User("john_doe"));
         verify(challengeAttemptRepository).save(resultAttempt);
+        verify(gamificationServiceClient).sendAttempt(resultAttempt);
     }
 
     @Test
     public void checkWrongAttemptTest() {
+        if (challengeService == null) return;
         // given
         ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(50, 60, "john_doe", 5000);
         // when

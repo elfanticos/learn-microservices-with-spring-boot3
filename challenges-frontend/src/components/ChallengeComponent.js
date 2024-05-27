@@ -1,6 +1,7 @@
 import * as React from "react";
 import ChallengeApiClient from "../services/ChallengeApiClient";
 import LastAttemptsComponent from "./LastAttemptsComponent";
+import LeaderBoardComponent from "./LeaderBoardComponent";
 
 class ChallengeComponent extends React.Component {
     constructor(props) {
@@ -79,7 +80,7 @@ class ChallengeComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="display-column">
                 <div>
                     <h3>Your new challenge is</h3>
                     <h1>{this.state.a} x {this.state.b}</h1>
@@ -100,6 +101,7 @@ class ChallengeComponent extends React.Component {
 
                 <h4>{this.state.message}</h4>
                 {this.state?.lastAttempts?.length > 0 && <LastAttemptsComponent lastAttempts={this.state.lastAttempts} /> }
+                <LeaderBoardComponent />
             </div>
 
         );
