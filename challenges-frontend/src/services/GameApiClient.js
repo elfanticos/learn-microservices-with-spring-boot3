@@ -1,10 +1,11 @@
 class GameApiClient {
-    static  SERVICE_URL = 'http://localhost:8081';
+    static SERVER_URL = 'http://localhost:9081';
     static GET_LEADERBOARD = '/leaders';
 
     static leaderBoard() {
-        return fetch(GameApiClient.SERVICE_URL + GameApiClient.GET_LEADERBOARD);
+        return fetch(GameApiClient.SERVER_URL + GameApiClient.GET_LEADERBOARD);
     }
+
 }
 
 export default GameApiClient;

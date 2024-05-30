@@ -45,6 +45,7 @@ class LeaderBoardComponent extends Component {
 
     refreshLeaderBoard() {
         this.getLeaderBoardData().then(lbData => {
+            console.log(lbData);
             let userIds = lbData.map(row => row.userId);
             this.getUserAliasData(userIds).then(data => {
 

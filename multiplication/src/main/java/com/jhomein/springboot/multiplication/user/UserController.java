@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     private final UserRepository userRepository;
 
     @GetMapping("/{idList}")
