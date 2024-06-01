@@ -9,7 +9,7 @@ class ChallengeComponent extends React.Component {
         this.state = {
             a: '',
             b: '',
-            user: '',
+            userAlias: '',
             message: '',
             guess: 0
         }
@@ -41,7 +41,7 @@ class ChallengeComponent extends React.Component {
 
     handleSubmitResult(event) {
         event.preventDefault();
-        ChallengeApiClient.sendGuess(this.state.user, this.state.a, this.state.b, this.state.guess).then(res => {
+        ChallengeApiClient.sendGuess(this.state.userAlias, this.state.a, this.state.b, this.state.guess).then(res => {
             if (res.ok) {
                 res.json().then(json => {
                     if (json.correct) {
@@ -49,8 +49,8 @@ class ChallengeComponent extends React.Component {
                     } else {
                         this.updateMessage("Oops! Your guess " + json.resultAttempt + " is wrong, but keep playing!");
                     }
-                    console.log(this.state.user);
-                    this.updateLastAttempts(this.state.user);
+                    console.log(this.state.userAlias);
+                    this.updateLastAttempts(this.state.userAlias);
                     // this.refreshChallenge();
                 });
             } else {
@@ -88,7 +88,7 @@ class ChallengeComponent extends React.Component {
                 <form onSubmit={this.handleSubmitResult}>
                     <label>
                         Your alias:
-                        <input type="text" maxLength="12" name="user" value={this.state.user} onChange={this.handleChange} />
+                        <input type="text" maxLength="12" name="userAlias" value={this.state.userAlias} onChange={this.handleChange} />
                     </label>
                     <br />
                     <label>

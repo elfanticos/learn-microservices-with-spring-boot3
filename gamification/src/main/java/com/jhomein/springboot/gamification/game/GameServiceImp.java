@@ -29,6 +29,7 @@ public class GameServiceImp implements GameService {
         // We give points only if it's correct
         if (challenge.isCorrect()) {
             ScoreCard scoreCard = new ScoreCard(challenge.getUserId(), challenge.getAttemptId());
+            scoreCard.setScore(10);
             scoreRepository.save(scoreCard);
 
             log.info("User {} scored {} points for attempt id {}", challenge.getUserAlias(), scoreCard.getScore(), challenge.getAttemptId());
