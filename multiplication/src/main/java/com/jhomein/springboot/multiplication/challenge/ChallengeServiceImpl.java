@@ -1,6 +1,5 @@
 package com.jhomein.springboot.multiplication.challenge;
 
-import com.jhomein.springboot.multiplication.serviceclients.GamificationServiceClient;
 import com.jhomein.springboot.multiplication.user.User;
 import com.jhomein.springboot.multiplication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,8 @@ import java.util.List;
 public class ChallengeServiceImpl implements ChallengeService {
     private final UserRepository userRepository;
     private final ChallengeAttemptRepository challengeAttemptRepository;
-    private final GamificationServiceClient gameClient;
+    private final ChallengeEventPub challengeEventPub; // replaced
+//    private final GamificationServiceClient gameClient;
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
@@ -41,8 +41,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         ChallengeAttempt storedAttempt = challengeAttemptRepository.save(checkedAttempt);
 
         // Sends the attempt to gamification and prints the response
-        boolean status = gameClient.sendAttempt(storedAttempt);
-        log.info("Gamification service response: {}", status);
+        // boolean status = gameClient.sendAttempt(storedAttempt);
+        // log.info("Gamification service response: {}", status);
+
+        // Publishes an event to notify potentially interested subscribers
+        challengeEventPub.challengeSolved(storedAttempt);
 
         return storedAttempt;
     }
