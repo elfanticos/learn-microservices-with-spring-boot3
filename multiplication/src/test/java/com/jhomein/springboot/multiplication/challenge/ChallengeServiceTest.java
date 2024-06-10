@@ -31,7 +31,7 @@ public class ChallengeServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository, gamificationServiceClient);
+//        this.challengeService = new ChallengeServiceImpl(userRepository, challengeAttemptRepository, gamificationServiceClient);
     }
 
     @Test
