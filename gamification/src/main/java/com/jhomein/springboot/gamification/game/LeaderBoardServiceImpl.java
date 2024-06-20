@@ -2,11 +2,13 @@ package com.jhomein.springboot.gamification.game;
 
 import com.jhomein.springboot.gamification.game.domain.LeaderBoardRow;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class LeaderBoardServiceImpl implements LeaderBoardService {

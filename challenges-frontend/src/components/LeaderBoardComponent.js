@@ -45,18 +45,16 @@ class LeaderBoardComponent extends Component {
 
     refreshLeaderBoard() {
         this.getLeaderBoardData().then(lbData => {
-            console.log(lbData);
-            let userIds = lbData.map(row => row.userId);
+            let userIds = lbData.map(row => row['userId']);
             this.getUserAliasData(userIds).then(data => {
 
-                // build a map of id -> alias
                 let userMap = new Map();
                 data.forEach(idAlias => {
                     userMap.set(idAlias.id, idAlias.alias);
                 });
 
                 // add a property to existing lb data
-                lbData.forEach(row => row['alias'] = userMap.get(row.userId));
+                lbData.forEach(row => row['alias'] = userMap.get(row['userId']));
                 this.updateLeaderBoard(lbData);
             }).catch(reason => {
                 console.log('Error mapping user ids', reason);

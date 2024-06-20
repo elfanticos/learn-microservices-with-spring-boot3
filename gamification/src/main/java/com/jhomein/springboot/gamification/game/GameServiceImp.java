@@ -1,10 +1,11 @@
 package com.jhomein.springboot.gamification.game;
 
-import com.jhomein.springboot.gamification.challenge.ChallengeSolvedDTO;
+import com.jhomein.springboot.gamification.challenge.ChallengeSolvedEvent;
 import com.jhomein.springboot.gamification.game.badgeprocessors.BadgeProcessor;
 import com.jhomein.springboot.gamification.game.domain.BadgeCard;
 import com.jhomein.springboot.gamification.game.domain.BadgeType;
 import com.jhomein.springboot.gamification.game.domain.ScoreCard;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ public class GameServiceImp implements GameService {
     private final List<BadgeProcessor> badgeProcessors;
 
     @Override
-    public GameResult newAttemptForUser(ChallengeSolvedDTO challenge) {
+    @Transactional
+    public GameResult newAttemptForUser(final ChallengeSolvedEvent challenge) {
         // We give points only if it's correct
         if (challenge.isCorrect()) {
             ScoreCard scoreCard = new ScoreCard(challenge.getUserId(), challenge.getAttemptId());
@@ -45,7 +47,7 @@ public class GameServiceImp implements GameService {
      * Checks the total score and the different score cards obtained
      * to give new badges in case their conditions are met.
      */
-    private List<BadgeCard> processForBadges(final ChallengeSolvedDTO solvedChallenge) {
+    private List<BadgeCard> processForBadges(final ChallengeSolvedEvent solvedChallenge) {
         Optional<Integer> optTotalScore = scoreRepository.getTotalScoreForUser(solvedChallenge.getUserId());
 
         if (optTotalScore.isEmpty()) return Collections.emptyList();

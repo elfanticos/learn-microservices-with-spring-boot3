@@ -1,6 +1,6 @@
 package com.jhomein.springboot.gamification.game.badgeprocessors;
 
-import com.jhomein.springboot.gamification.challenge.ChallengeSolvedDTO;
+import com.jhomein.springboot.gamification.challenge.ChallengeSolvedEvent;
 import com.jhomein.springboot.gamification.game.domain.BadgeType;
 import com.jhomein.springboot.gamification.game.domain.ScoreCard;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.Optional;
 class GoldBadgeProcessor implements BadgeProcessor {
 
     @Override
-    public Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedDTO solved) {
+    public Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedEvent solved) {
         return currentScore > 400 ? Optional.of(BadgeType.GOLD) : Optional.empty();
     }
 

@@ -1,7 +1,7 @@
 package com.jhomein.springboot.gamification.game;
 
 
-import com.jhomein.springboot.gamification.challenge.ChallengeSolvedDTO;
+import com.jhomein.springboot.gamification.challenge.ChallengeSolvedEvent;
 import com.jhomein.springboot.gamification.game.GameService.GameResult;
 import com.jhomein.springboot.gamification.game.badgeprocessors.BadgeProcessor;
 import com.jhomein.springboot.gamification.game.domain.BadgeCard;
@@ -44,7 +44,7 @@ public class GameServiceImplTest {
         long userId = 1L;
         long attemptId = 10L;
 
-        ChallengeSolvedDTO attempt = new ChallengeSolvedDTO(attemptId, true, 20, 70, userId, "john");
+        ChallengeSolvedEvent attempt = new ChallengeSolvedEvent(attemptId, true, 20, 70, userId, "john");
         ScoreCard scoreCard = new ScoreCard(userId, attemptId);
 
         given(scoreRepository.getTotalScoreForUser(userId)).willReturn(Optional.of(10));
@@ -73,7 +73,7 @@ public class GameServiceImplTest {
     public void processWrongAttemptTest() {
         // when
         GameResult gameResult = gameServiceImp.newAttemptForUser(
-                new ChallengeSolvedDTO(10L, false, 10, 10, 1L, "john")
+                new ChallengeSolvedEvent(10L, false, 10, 10, 1L, "john")
         );
 
         // then - shouldn't score anything

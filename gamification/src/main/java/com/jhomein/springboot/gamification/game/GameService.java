@@ -1,6 +1,6 @@
 package com.jhomein.springboot.gamification.game;
 
-import com.jhomein.springboot.gamification.challenge.ChallengeSolvedDTO;
+import com.jhomein.springboot.gamification.challenge.ChallengeSolvedEvent;
 import com.jhomein.springboot.gamification.game.domain.BadgeType;
 import lombok.Value;
 
@@ -13,7 +13,7 @@ public interface GameService {
      * @param challenge the challenge data with user details, factors, etc.
      * @return a {@link GameResult} object containing the new score and badge cards obtained
      */
-    GameResult newAttemptForUser(ChallengeSolvedDTO challenge);
+    GameResult newAttemptForUser(ChallengeSolvedEvent challenge);
 
     @Value
     class GameResult {

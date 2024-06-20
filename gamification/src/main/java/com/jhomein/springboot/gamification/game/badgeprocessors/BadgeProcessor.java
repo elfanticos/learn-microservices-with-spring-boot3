@@ -1,6 +1,6 @@
 package com.jhomein.springboot.gamification.game.badgeprocessors;
 
-import com.jhomein.springboot.gamification.challenge.ChallengeSolvedDTO;
+import com.jhomein.springboot.gamification.challenge.ChallengeSolvedEvent;
 import com.jhomein.springboot.gamification.game.domain.BadgeType;
 import com.jhomein.springboot.gamification.game.domain.ScoreCard;
 
@@ -14,7 +14,7 @@ public interface BadgeProcessor {
      *
      * @return a BadgeType if the user is entitled to this badge, otherwise empty
      */
-    Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedDTO solved);
+    Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedEvent solved);
 
     /**
      * @return the BadgeType object that this processor is handling. You can use

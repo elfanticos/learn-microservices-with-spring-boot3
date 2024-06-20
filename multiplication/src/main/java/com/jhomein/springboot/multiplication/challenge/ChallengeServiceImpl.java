@@ -15,7 +15,6 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final UserRepository userRepository;
     private final ChallengeAttemptRepository challengeAttemptRepository;
     private final ChallengeEventPub challengeEventPub; // replaced
-//    private final GamificationServiceClient gameClient;
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {

@@ -21,6 +21,7 @@ class ChallengeComponent extends React.Component {
         ChallengeApiClient.challenge().then(res => {
             if (res.ok) {
                 res.json().then(json => {
+                    console.log(json);
                     this.setState({
                         a: json.factorA,
                         b: json.factorB
@@ -44,10 +45,10 @@ class ChallengeComponent extends React.Component {
         ChallengeApiClient.sendGuess(this.state.userAlias, this.state.a, this.state.b, this.state.guess).then(res => {
             if (res.ok) {
                 res.json().then(json => {
-                    if (json.correct) {
+                    if (json['correct']) {
                         this.updateMessage("Congratulations! Your guess is correct");
                     } else {
-                        this.updateMessage("Oops! Your guess " + json.resultAttempt + " is wrong, but keep playing!");
+                        this.updateMessage("Oops! Your guess " + json['resultAttempt'] + " is wrong, but keep playing!");
                     }
                     console.log(this.state.userAlias);
                     this.updateLastAttempts(this.state.userAlias);
@@ -72,7 +73,7 @@ class ChallengeComponent extends React.Component {
                 res.json().then(data => {
                     console.log(data);
                     data.forEach(item => lastAttempts.push(item));
-                    this.setState({ lastAttempts });
+                    this.setState({lastAttempts});
                 });
             }
         });
@@ -88,20 +89,23 @@ class ChallengeComponent extends React.Component {
                 <form onSubmit={this.handleSubmitResult}>
                     <label>
                         Your alias:
-                        <input type="text" maxLength="12" name="userAlias" value={this.state.userAlias} onChange={this.handleChange} />
+                        <input type="text" maxLength="12" name="userAlias" value={this.state.userAlias}
+                               onChange={this.handleChange}/>
                     </label>
-                    <br />
+                    <br/>
                     <label>
                         Your guess:
-                        <input type="number" min="0" name="guess" value={this.state.guess} onChange={this.handleChange} />
+                        <input type="number" min="0" name="guess" value={this.state.guess}
+                               onChange={this.handleChange}/>
                     </label>
-                    <br />
-                    <input type="submit" value="Submit" />
+                    <br/>
+                    <input type="submit" value="Submit"/>
                 </form>
 
                 <h4>{this.state.message}</h4>
-                {this.state?.lastAttempts?.length > 0 && <LastAttemptsComponent lastAttempts={this.state.lastAttempts} /> }
-                <LeaderBoardComponent />
+                {this.state?.['lastAttempts']?.length > 0 && (
+                    <LastAttemptsComponent lastAttempts={this.state.lastAttempts}/>)}
+                <LeaderBoardComponent/>
             </div>
 
         );

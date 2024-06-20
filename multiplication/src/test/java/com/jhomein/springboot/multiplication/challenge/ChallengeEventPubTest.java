@@ -40,8 +40,7 @@ public class ChallengeEventPubTest {
         var routingKeyCaptor = ArgumentCaptor.forClass(String.class);
         var eventCaptor = ArgumentCaptor.forClass(ChallengeSolvedEvent.class);
 
-        verify(amqpTemplate).convertAndSend(exchangeCaptor.capture(),
-                routingKeyCaptor.capture(), eventCaptor.capture());
+        verify(amqpTemplate).convertAndSend(exchangeCaptor.capture(), routingKeyCaptor.capture(), eventCaptor.capture());
 
         then(exchangeCaptor.getValue()).isEqualTo("test.topic");
 
