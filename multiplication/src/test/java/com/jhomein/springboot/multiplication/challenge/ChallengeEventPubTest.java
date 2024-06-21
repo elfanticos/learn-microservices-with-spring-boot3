@@ -9,6 +9,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.verify;
@@ -21,9 +22,12 @@ public class ChallengeEventPubTest {
     @Mock
     private AmqpTemplate amqpTemplate;
 
+    @Mock
+    private RabbitTemplate rabbitTemplate;
+
     @BeforeEach
     public void setUp() {
-        challengeEventPub = new ChallengeEventPub(amqpTemplate, "test.topic");
+        challengeEventPub = new ChallengeEventPub(amqpTemplate, rabbitTemplate,"test.topic");
     }
 
     @ParameterizedTest

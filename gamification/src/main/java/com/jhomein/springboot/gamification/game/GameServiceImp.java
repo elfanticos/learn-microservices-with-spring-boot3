@@ -25,8 +25,8 @@ public class GameServiceImp implements GameService {
     // Spring injects all the @Component beans in this list
     private final List<BadgeProcessor> badgeProcessors;
 
-    @Override
     @Transactional
+    @Override
     public GameResult newAttemptForUser(final ChallengeSolvedEvent challenge) {
         // We give points only if it's correct
         if (challenge.isCorrect()) {
