@@ -1,5 +1,5 @@
 class GameApiClient {
-    static SERVER_URL = 'http://localhost:9081';
+    static SERVER_URL = 'http://localhost:9000';
     static GET_LEADERBOARD = '/leaders';
 
     static leaderBoard() {
