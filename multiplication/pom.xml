@@ -12,7 +12,7 @@
     <artifactId>multiplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>multiplication</name>
-    <description>Book Learn Microservices with Spring Book 3 Project 1</description>
+    <description>Multiplication Microservice</description>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.2</spring-cloud.version>
