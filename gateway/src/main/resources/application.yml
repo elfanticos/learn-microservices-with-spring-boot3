@@ -31,11 +31,11 @@ spring:
               - "GET"
               - "POST"
               - "OPTIONS"
-      default-filters:
-        - name: Retry
-          args:
-            retries: 3
-            methods: GET,POST
+#      default-filters:
+#        - name: Retry
+#          args:
+#            retries: 3
+#            methods: GET,POST
 logging:
   level:
     org.springframework.cloud.gateway.handler.predicate: trace
