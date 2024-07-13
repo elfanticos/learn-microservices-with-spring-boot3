@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8000
 
 spring:
   application:
@@ -8,8 +8,8 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
-    consul:
-      enabled: true
+      consul:
+        enabled: true
       discovery:
         query-passing: true
     gateway:
@@ -17,25 +17,25 @@ spring:
         - id: multiplication
           uri: lb://multiplication/
           predicates:
-            - Path=/challenges/**,/attempts,/attempts/**,/users/**
+            - Path=/challenges/**,/attempts/**,/users/**
         - id: gamification
           uri: lb://gamification/
           predicates:
             - Path=/leaders
       globalcors:
         cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:3000"
+          "[/**]":
+            allowedOrigins: http://localhost:3000
             allowedHeaders: "*"
             allowedMethods:
-              - "GET"
-              - "POST"
-              - "OPTIONS"
-#      default-filters:
-#        - name: Retry
-#          args:
-#            retries: 3
-#            methods: GET,POST
+              - GET
+              - POST
+              - OPTIONS
+      default-filters:
+        - name: Retry
+          args:
+            retries: 3
+            methods: GET,POST
 logging:
   level:
-    org.springframework.cloud.gateway.handler.predicate: trace
+    "[org.springframework.cloud.gateway.handler.predicate]": trace
