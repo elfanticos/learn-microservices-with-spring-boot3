@@ -21,7 +21,6 @@ public class SilverBadgeProcessorTest {
     @Test
     public void shouldGiveBadgeIfScoreOverThreshold() {
         Optional<BadgeType> badgeType = badgeProcessor.processForOptionalBadge(160, List.of(), null);
-
         assertThat(badgeType).contains(BadgeType.SILVER);
     }
 

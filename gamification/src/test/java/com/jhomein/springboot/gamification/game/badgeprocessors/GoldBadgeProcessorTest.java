@@ -20,14 +20,12 @@ public class GoldBadgeProcessorTest {
     @Test
     public void shouldGiveBadgeIfScoreOverThreshold() {
         Optional<BadgeType> badgeType = badgeProcessor.processForOptionalBadge(450, List.of(), null);
-
         assertThat(badgeType).contains(BadgeType.GOLD);
     }
 
     @Test
     public void shouldNotGiveBadgeIfScoreUnderThreshold() {
         Optional<BadgeType> badgeType = badgeProcessor.processForOptionalBadge(350, List.of(), null);
-
         assertThat(badgeType).isEmpty();
     }
 }

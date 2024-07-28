@@ -16,29 +16,28 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 @Slf4j
 @RequiredArgsConstructor
-@Service
-public class GameServiceImp implements GameService {
+class GameServiceImpl implements GameService {
+
     private final ScoreRepository scoreRepository;
     private final BadgeRepository badgeRepository;
     // Spring injects all the @Component beans in this list
     private final List<BadgeProcessor> badgeProcessors;
 
-    @Transactional
     @Override
+    @Transactional
     public GameResult newAttemptForUser(final ChallengeSolvedEvent challenge) {
         // We give points only if it's correct
         if (challenge.isCorrect()) {
             ScoreCard scoreCard = new ScoreCard(challenge.getUserId(), challenge.getAttemptId());
-            scoreCard.setScore(10);
             scoreRepository.save(scoreCard);
-
             log.info("User {} scored {} points for attempt id {}", challenge.getUserAlias(), scoreCard.getScore(), challenge.getAttemptId());
             List<BadgeCard> badgeCards = processForBadges(challenge);
             return new GameResult(scoreCard.getScore(), badgeCards.stream().map(BadgeCard::getBadgeType).collect(Collectors.toList()));
         } else {
-            log.info("Attempt id {} is not correct. " + "User {} does not get score.", challenge.getAttemptId(), challenge.getUserAlias());
+            log.info("Attempt id {} is not correct. User {} does not get score.", challenge.getAttemptId(), challenge.getUserAlias());
             return new GameResult(0, List.of());
         }
     }
@@ -49,13 +48,12 @@ public class GameServiceImp implements GameService {
      */
     private List<BadgeCard> processForBadges(final ChallengeSolvedEvent solvedChallenge) {
         Optional<Integer> optTotalScore = scoreRepository.getTotalScoreForUser(solvedChallenge.getUserId());
-
         if (optTotalScore.isEmpty()) return Collections.emptyList();
-
         int totalScore = optTotalScore.get();
 
         // Gets the total score and existing badges for that user
         List<ScoreCard> scoreCardList = scoreRepository.findByUserIdOrderByScoreTimestampDesc(solvedChallenge.getUserId());
+
         Set<BadgeType> alreadyGotBadges = badgeRepository
                 .findByUserIdOrderByBadgeTimestampDesc(solvedChallenge.getUserId())
                 .stream()
@@ -65,16 +63,15 @@ public class GameServiceImp implements GameService {
         // Calls the badge processors for badges that the user doesn't have yet
         List<BadgeCard> newBadgeCards = badgeProcessors.stream()
                 .filter(bp -> !alreadyGotBadges.contains(bp.badgeType()))
-                .map(bp -> bp.processForOptionalBadge(totalScore, scoreCardList, solvedChallenge)
-                ).flatMap(Optional::stream) // returns an empty stream if empty
+                .map(bp -> bp.processForOptionalBadge(totalScore, scoreCardList, solvedChallenge))
+                .flatMap(Optional::stream) // returns an empty stream if empty
                 // maps the optionals if present to new BadgeCards
-                .map(badgeType ->
-                        new BadgeCard(solvedChallenge.getUserId(), badgeType)
-                )
+                .map(badgeType -> new BadgeCard(solvedChallenge.getUserId(), badgeType))
                 .collect(Collectors.toList());
 
         badgeRepository.saveAll(newBadgeCards);
 
         return newBadgeCards;
     }
+
 }

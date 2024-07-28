@@ -29,8 +29,8 @@ public class ChallengeEventPub {
                 .setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT)
                 .build();
 
-        rabbitTemplate.getMessageConverter().toMessage(challengeAttempt, messageProperties);
-        rabbitTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
+//        rabbitTemplate.getMessageConverter().toMessage(challengeAttempt, messageProperties);
+//        rabbitTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
 
 //        amqpTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
     }
