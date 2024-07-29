@@ -1,5 +1,6 @@
 package com.jhomein.springboot.logs;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class LogsConsumer {
+public class LogConsumer {
     @RabbitListener(queues = "logs.queue")
     public void log(final String msg, @Header("level") String level, @Header("amqp_appId") String appId) {
         Marker marker = MarkerFactory.getMarker(appId);
