@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScoreCard {
     // The default score assigned to this card, if not specified
-    public static final int DEFAULT_SCORE = 0;
+    public static final int DEFAULT_SCORE = 10;
 
     @Id
     @GeneratedValue

@@ -1,11 +1,57 @@
 version: "3"
 services:
-#  consul-importer:
-#    image: consul-importer:1.0
+#  frontend:
+#    image: challenges-frontend:1.0
+#    ports:
+#      - '3000:80'
+#  multiplication:
+#    image: multiplication:0.0.1-SNAPSHOT
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - SPRING_CLOUD_CONSUL_HOST=consul
 #    depends_on:
-#      - consul-dev
+#      - rabbitmq-dev
+#      - consul-importer
 #    networks:
 #      - microservices
+#  gamification:
+#    image: gamification:0.0.1-SNAPSHOT
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - SPRING_CLOUD_CONSUL_HOST=consul
+#    depends_on:
+#      - rabbitmq-dev
+#      - consul-importer
+#    networks:
+#      - microservices
+#  gateway:
+#    image: gateway:0.0.1-SNAPSHOT
+#    ports:
+#      - '9000:9000'
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - SPRING_CLOUD_CONSUL_HOST=consul
+#    depends_on:
+#      - rabbitmq-dev
+#      - consul-importer
+#    networks:
+#      - microservices
+#  logs:
+#    image: logs:0.0.1-SNAPSHOT
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - SPRING_CLOUD_CONSUL_HOST=consul
+#    depends_on:
+#      - rabbitmq-dev
+#      - consul-importer
+#    networks:
+#      - microservices
+  consul-importer:
+    image: learnmicro/consul-importer:1.9
+    depends_on:
+      - consul-dev
+    networks:
+      - microservices
   consul-dev:
     image: consul:1.15.4
     container_name: consul
@@ -18,7 +64,7 @@ services:
     networks:
       - microservices
   rabbitmq-dev:
-    image: rabbitmq:3.11.20-management
+    image: rabbitmq:3.13-management
     container_name: rabbitmq
     ports:
       - '5672:5672'
@@ -28,3 +74,14 @@ services:
 networks:
   microservices:
     driver: bridge
+
+
+
+#runs command
+#cd docker
+
+#run
+#docker-compose up
+
+#stop
+#docker-compose down -v

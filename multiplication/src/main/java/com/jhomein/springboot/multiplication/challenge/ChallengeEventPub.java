@@ -1,9 +1,6 @@
 package com.jhomein.springboot.multiplication.challenge;
 
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.core.MessagePropertiesBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,15 +21,7 @@ public class ChallengeEventPub {
         ChallengeSolvedEvent event = buildEvent(challengeAttempt);
         // Routing Key is 'attempt.correct' or 'attempt.wrong'
         String routingKey = "attempt." + (event.isCorrect() ? "correct" : "wrong");
-
-        MessageProperties messageProperties = MessagePropertiesBuilder.newInstance()
-                .setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT)
-                .build();
-
-//        rabbitTemplate.getMessageConverter().toMessage(challengeAttempt, messageProperties);
-//        rabbitTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
-
-//        amqpTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
+        amqpTemplate.convertAndSend(challengesTopicExchange, routingKey, event);
     }
 
     public ChallengeSolvedEvent buildEvent(final ChallengeAttempt challengeAttempt) {
